@@ -1,0 +1,48 @@
+/*var config = {
+	service: {
+		issuer: 'http://192.168.9.21:8080/webportal-0.0.1-SNAPSHOT/restful/issuer',
+		transaction: 'http://192.168.9.21:8080/webportal-0.0.1-SNAPSHOT/restful/issuer/{issuerId}/transaction'
+	}, 
+	directive: {
+		main: {
+			sideBar: 'http://192.168.9.21/thincapayment/side-bar.html',
+			headerPage: 'http://192.168.9.21/thincapayment/header-page.html',
+			pageBreadcrumbs: 'http://192.168.9.21/thincapayment/assets/angular/view/thinca/page-breadcrumbs.html'
+		},
+		issuer: {
+			layout: 'http://192.168.9.21/thincapayment/assets/angular/view/issuer/layout.html',
+			table: 'http://192.168.9.21/thincapayment/assets/angular/view/issuer/colection-issuers.html'
+		},
+		transaction: {
+			layout: 'http://192.168.9.21/thincapayment/assets/angular/view/transaction/layout.html',
+			table: 'http://192.168.9.21/thincapayment/assets/angular/view/transaction/transaction-table.html',
+			filter: 'http://192.168.9.21/thincapayment/assets/angular/view/transaction/filter.html'
+		}
+	}
+}
+*/
+var config = {
+	service: {
+		issuer: 'http://khacsinhcs:8080/webportal-0.0.1-SNAPSHOT/restful/issuer',
+		transaction: 'http://khacsinhcs:8080/webportal-0.0.1-SNAPSHOT/restful/issuer/{issuerId}/transaction'
+	}, 
+	directive: {
+		main: {
+			sideBar: 'http://localhost/thincapayment/side-bar.html',
+			headerPage: 'http://localhost/thincapayment/header-page.html',
+			pageBreadcrumbs: 'http://localhost/thincapayment/assets/angular/view/thinca/page-breadcrumbs.html'
+		},
+		issuer: {
+			layout: 'http://localhost/thincapayment/assets/angular/view/issuer/layout.html',
+			table: 'http://localhost/thincapayment/assets/angular/view/issuer/colection-issuers.html',
+
+		},
+		transaction: {
+			layout: 'http://localhost/thincapayment/assets/angular/view/transaction/layout.html',
+			table: 'http://localhost/thincapayment/assets/angular/view/transaction/transaction-table.html',
+			filter: 'http://localhost/thincapayment/assets/angular/view/transaction/filter.html',
+			paging: 'http://localhost/thincapayment/assets/angular/view/transaction/paging.html'
+		}
+	}
+}
+

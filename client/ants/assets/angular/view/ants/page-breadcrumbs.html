@@ -1,0 +1,42 @@
+<div class="page-breadcrumbs">
+    <ul class="breadcrumb" style="margin-right: 0px;">
+        <li>
+            <i class="fa fa-home"></i>
+        </li>
+    </ul>
+    <ul class="breadcrumb" >
+        <li ng-hide="item.url==''" class="active" ng-repeat="item in initValue.variablePath">
+            <a  href="{{item.url}}">{{item.value}}</a>
+        </li>
+        <li ng-show="item.url==''" class="active" ng-repeat="item in initValue.variablePath">
+            {{item.value}}
+        </li>
+    </ul>
+</div>
+
+<div class="page-header position-relative">
+    <div class="header-title">
+        <h1>
+            {{initValue.title}}
+        </h1>
+    </div>
+    <!--Header Buttons-->
+    <div class="header-buttons">
+        <a class="sidebar-toggler" href="#">
+            <i class="fa fa-bars"></i>
+        </a>
+        <a class="refresh" id="refresh-toggler" href="">
+            <i class="glyphicon glyphicon-refresh"></i>
+        </a>
+        <a class="fullscreen" id="fullscreen-toggler" href="#">
+            <i class="glyphicon glyphicon-fullscreen"></i>
+        </a>
+    </div>
+  
+</div>
+
+<script type="text/javascript">
+    fullcreenHandler()
+    handleSideMenu()
+    initiateWidgetBoxes()
+</script>	

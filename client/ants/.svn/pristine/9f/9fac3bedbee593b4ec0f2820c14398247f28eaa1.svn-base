@@ -1,0 +1,22 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Identification</th>
+			<th>Name</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="issuer in colectionIssuers">
+			<td>
+				{{issuer.id}}
+			</td>
+			<td>
+				{{issuer.name}}
+			</td>
+			<td>
+				<a class="btn btn-info btn-xs edit update-button" href="/issuer/{{issuer.id}}"><i class="fa fa-edit"></i> View Detail</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

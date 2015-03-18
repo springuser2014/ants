@@ -1,0 +1,41 @@
+(function() {
+	var app = angular.module('root-controller', [])
+	.controller('RootController', ['$scope', 
+		function($scope) {
+			$scope.languageBundle = englishBundle
+		}])
+	.controller('IssuerRootController', [ '$scope', '$routeParams',
+		function($scope, $routeParams) {
+			var logger = Logger('IssuerRootController')
+			logger.info("Welcome tom Issuer Management")
+			$scope.initValue = {
+				title: "Issuer Management",
+				variablePath: [
+					{
+						value: "issuer",
+						url: ""
+					}
+				]
+			}
+		} ])
+	.controller('TransactionRootController', [ '$scope', '$routeParams',
+		function($scope, $routeParams) {
+			var logger = Logger('TransactionRootController')
+			logger.info("Welcome tom Transaction Management")
+			logger.showObject($routeParams)
+
+			$scope.initValue = {
+				title: "Transaction Management",
+				variablePath: [
+					{
+						value: "issuer",
+						url: "/issuer"
+					},
+					{
+						value: "transaction",
+						url: ""
+					}
+				]
+			}
+		} ])
+})();

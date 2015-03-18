@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="logService" class="com.kscs.ants.test.log.LogServiceImpl">
+		<property name="logDao" ref="logDao" />
+		<property name="pageDao" ref="pageDao" />
+	</bean>
+
+	<bean id="logDao" class="com.kscs.ants.test.log.LogDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>

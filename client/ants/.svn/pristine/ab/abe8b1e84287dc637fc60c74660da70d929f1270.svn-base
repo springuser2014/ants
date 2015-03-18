@@ -1,0 +1,15 @@
+(function(angular) {
+	var transactionDirective = angular.module('transaction-directive', [])
+	.directive('transactionTable', function() {
+		return {
+			restrict : 'AEC',
+			templateUrl : config.directive.transaction.table
+		}
+	})
+	.directive('filterTransaction', function() {
+		return {
+			restrict : 'AEC',
+			templateUrl : config.directive.transaction.filter
+		}
+	})
+})(window.angular);

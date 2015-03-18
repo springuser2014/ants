@@ -1,0 +1,132 @@
+(function(angular) {
+	var app = angular.module('transaction-serivce', []);
+	var logger = Logger('transactionService')
+
+	app.service('transactionService', function($http, $q) {
+		return ({
+			search: search,
+			getAll: getAll,
+			countNumberElement: count
+		})
+		
+		function count(issuerId, transactionFilter) {
+			var url = passParameter('issuerId',issuerId,config.service.transaction) + "/search/size"
+			logger.info('Count transaction in server with URI ' + url)
+			
+			var modiferFilter = modifyFilter(transactionFilter)
+			modiferFilter.limitResult = null
+			modiferFilter.firstResult = null
+			logger.info('The filter is: ')
+
+			logger.showObject(modiferFilter)
+			
+			var request = $http({
+				method : 'post',
+				url : url,
+				headers : {
+					'Content-Type' : 'application/json; charset=utf8'
+				}, 
+				data : modiferFilter
+			})
+			
+			return (request.then(handleSuccess, handleError));	
+		}
+
+		function search(issuerId, transactionFilter) {
+			var url = passParameter('issuerId',issuerId,config.service.transaction) + "/search"
+			logger.info('Find transaction in server with URI ' + url)
+			
+			var modiferFilter = modifyFilter(transactionFilter)
+
+			logger.info('The filter is: ')
+			logger.showObject(modiferFilter)
+			
+			var request = $http({
+				method : 'post',
+				url : url,
+				headers : {
+					'Content-Type' : 'application/json; charset=utf8'
+				}, 
+				data : modiferFilter
+			})
+			
+			return (request.then(handleSuccess, handleError));	
+		}
+
+		function getAll(issuerId) {
+			var url = passParameter('issuerId',issuerId,config.service.transaction) 
+
+			logger.info('Get all issuer in server with URI ' + url)
+
+			var request = $http({
+				method : 'get',
+				url : url
+			})
+
+			return (request.then(handleSuccess, handleError));	
+		}
+
+		function handleError(response) {
+			logger.info('It has a exception')
+			logger.showObject(response)
+			if (!angular.isObject(response.data) || !response.data.message) {
+				return ($q.reject("An unknown error occurred."));
+			}
+			return ($q.reject(response.data.message));
+		}
+		function handleSuccess(response) {
+			logger.info('Submit to server successful. Response data is')
+			logger.showObject(response.data)
+			return response.data
+		}
+
+		function modifyFilter(filter) {
+			logger.info('Modify filter to remove invalid condition')
+			var afterModifiedFilter = {}
+			if (filter == null) {
+				return afterModifiedFilter
+			}
+
+			if (isEnableCondition(filter.paymentApplicationId)) {
+				afterModifiedFilter.paymentApplicationId = filter.paymentApplicationId
+			}
+
+			if (isEnableCondition(filter.terminalId)) {
+				afterModifiedFilter.terminalId = filter.terminalId
+			}
+
+			if (isEnableCondition(filter.amountFrom)) {
+				afterModifiedFilter.amountFrom = filter.amountFrom
+			}
+
+			if (isEnableCondition(filter.amountTo)) {
+				afterModifiedFilter.amountTo = filter.amountTo
+			}
+
+			if (isEnableCondition(filter.fromTime)) {
+				afterModifiedFilter.fromTime = filter.fromTime
+			}
+
+			if (isEnableCondition(filter.toTime)) {
+				afterModifiedFilter.toTime = filter.toTime
+			}
+			if (isEnableCondition(filter.limitResult)) {
+				afterModifiedFilter.limitResult = filter.limitResult
+			}
+			if (isEnableCondition(filter.firstResult)) {
+				afterModifiedFilter.firstResult = filter.firstResult
+			}
+
+
+			return afterModifiedFilter
+		}
+
+		function isEnableCondition(condition) {
+			if (condition != null && condition != "") {
+				return true
+			}
+			return false
+		}
+	})
+})(window.angular);
+

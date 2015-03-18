@@ -1,0 +1,35 @@
+/**
+ * 
+ */
+(function(angular) {
+	var app = angular.module('ThincaServer', [ 'ngRoute', 'root-controller', 'issuer-controller', 'transaction-controller']);
+	
+	app.config(function($routeProvider, $locationProvider) {
+		$routeProvider
+		.when("/issuer", {
+			templateUrl : config.directive.issuer.layout,
+			controller : 'IssuerRootController'
+		})
+		.when("/issuer/:issuerId", {
+			templateUrl: config.directive.transaction.layout,
+			controller: 'TransactionRootController'
+
+		})
+		.otherwise({
+        	templateUrl : config.directive.issuer.layout,
+			controller : 'IssuerRootController'
+      	});
+
+		$locationProvider.html5Mode( 
+			{ 
+				enabled: true,
+  				requireBase: false
+  			});
+	})
+	.directive('headerPage', function() {
+		return {
+			restrict : 'AEC',
+			templateUrl : config.directive.main.headerPage
+		}
+	});
+})(window.angular);

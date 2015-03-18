@@ -1,0 +1,28 @@
+var config = {
+	service: {
+		issuer: 'http://khacsinhcs:8080/webportal-0.0.1-SNAPSHOT/restful/issuer',
+		transaction: 'http://khacsinhcs:8080/webportal-0.0.1-SNAPSHOT/restful/issuer/{issuerId}/transaction'
+	}, 
+	directive: {
+		main: {
+			sideBar: 'http://localhost/thincapayment/side-bar.html',
+			headerPage: 'http://localhost/thincapayment/header-page.html',
+			pageBreadcrumbs: 'http://localhost/thincapayment/assets/angular/view/thinca/page-breadcrumbs.html'
+		},
+		issuer: {
+			layout: 'http://localhost/thincapayment/assets/angular/view/issuer/layout.html',
+			table: 'http://localhost/thincapayment/assets/angular/view/issuer/colection-issuers.html'
+		},
+		transaction: {
+			layout: 'http://localhost/thincapayment/assets/angular/view/transaction/layout.html',
+			table: 'http://localhost/thincapayment/assets/angular/view/transaction/transaction-table.html'
+		}
+	}
+}
+
+var passParameter = function(paramenter, value, defaultUrl) {
+	var url = defaultUrl,
+	injectPoint = '{' + paramenter + '}'
+
+	return url.replace(injectPoint, value)
+}

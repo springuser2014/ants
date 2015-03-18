@@ -1,0 +1,37 @@
+
+(function(angular) {
+	var app = angular.module('transaction-controller', ['transaction-serivce', 'transaction-directive'])
+	
+	.controller('ColectionTransactionController', ['$scope', '$routeParams', 'transactionService',
+		function($scope, $routeParams, transactionService){
+			var controller = this,
+			logger = Logger('ColectionTransactionController')
+			
+
+			$scope.refreshView = function() {
+				logger.info('Refresh element in transaction table')
+
+				var filterTransactionRequest = 
+					transactionService.search($routeParams.issuerId, $scope.transactionFilter)
+
+				filterTransactionRequest.then(function(theListTransaction) {
+					$scope.colectionTransaction = theListTransaction
+					logger.info(theListTransaction)
+				})
+
+				filterTransactionRequest.catch(function(data) {
+
+				})
+			}
+
+			logger.info('Welcome, all route params:')
+			logger.showObject($routeParams)
+			$scope.refreshView()
+		}])
+	.controller('TransactionFilterController', ['$scope', function($scope){
+			var controller = this
+			$scope.transactionFilter = {}
+			$scope.isShowView = false
+		}])
+})(window.angular);
+

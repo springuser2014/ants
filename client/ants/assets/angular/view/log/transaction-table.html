@@ -1,0 +1,24 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Duration</th>
+			<th>Browser</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="log in colectionTransaction">
+			<td>
+				{{log.id}}
+			</td>
+			<td>
+				{{log.duration}}
+			</td>
+			<td>
+				{{log.browser}}
+			</td>
+			
+		</tr>
+	</tbody>
+</table>

@@ -1,0 +1,155 @@
+
+(function(angular) {
+	var numberElementPerPage = 10;
+	var app = angular.module('transaction-controller', ['transaction-serivce', 'transaction-directive', 'issuer-serivce'])
+	
+	.controller('ColectionTransactionController', ['$scope', '$routeParams', 'transactionService',
+		function($scope, $routeParams, transactionService){
+			var controller = this,
+			logger = Logger('ColectionTransactionController')
+
+			$scope.reCaculatorTotalPage = function(callback) {
+				transactionService.countNumberElement($routeParams.issuerId, $scope.$parent.transactionFilter).then(function(numberElement){
+					callback((numberElement - 1) / numberElementPerPage + 1)
+				})
+			}
+
+			$scope.refreshView = function() {
+				logger.info('Refresh element in transaction table')
+				logger.info('Current filter is')
+
+				logger.showObject($scope.transactionFilter)
+
+				var filterTransactionRequest = 
+					transactionService.search($routeParams.issuerId, $scope.transactionFilter)
+
+				filterTransactionRequest.then(function(theListTransaction) {
+					$scope.colectionTransaction = changeListColectionTimeToCurrentTimeZone(theListTransaction)
+				})
+
+				filterTransactionRequest.catch(function(data) {
+					//TODO
+				})
+			}
+
+			logger.info('Welcome, all route params:')
+			logger.showObject($routeParams)
+			$scope.refreshView()
+
+			var changeListColectionTimeToCurrentTimeZone = function(listTransaction) {				
+				logger.info("Current time zone is " + timeZoneOffSet)
+				listTransaction.forEach(function(transaction) {
+					transaction.time = changeUTCToCurrentTimeZone(transaction.time)
+				})
+
+				return listTransaction
+			}
+		}])
+	.controller('TransactionFilterController', ['$scope', 'issuerService', '$routeParams',
+		function($scope, issuerService, $routeParams){
+			var controller = this,
+			logger = Logger('TransactionFilterController'),
+
+			metaDataWhenEnableFilter = {
+				isShowView: true,
+				signalClass: "fa fa-angle-up"
+			},
+			metaDataWhenDisableFilter = {
+				isShowView: false,
+				signalClass: "fa fa-angle-down"
+			}
+
+
+			$scope.metaData = metaDataWhenDisableFilter
+
+			$scope.changeModeShowView = function() {
+				if ($scope.metaData.isShowView == true) {
+					$scope.metaData = metaDataWhenDisableFilter
+				} else {
+					$scope.metaData = metaDataWhenEnableFilter
+				}
+			}
+
+			$scope.clearFilter = function() {
+				logger.info('clear filter')
+				$scope.$parent.transactionFilter = {}
+				$scope.refreshView()
+			}
+		
+			logger.info('Welcome!!!')
+			
+			$scope.$parent.transactionFilter = {}
+			var filter = $scope.$parent.transactionFilter
+			filter.firstResult = $scope.$parent.caculateFirstResult;
+			filter.limitResult = numberElementPerPage;
+
+			var getContainerIssuer = function() {
+				var getIssuer = issuerService.find($routeParams.issuerId)
+				getIssuer.then(function(responseIssuer) {
+					logger.info('get issuer own these transaction')
+					logger.showObject(responseIssuer)
+					controller.issuer = responseIssuer
+				})
+			}
+			getContainerIssuer()
+		}])
+	.controller('TransactionPagingController',['$scope', 'transactionService', '$routeParams', 
+		function($scope) {
+			var logger = Logger('TransactionPagingController')
+			$scope.pagingContrl = {
+				currentPage: 1,
+			}
+			$scope.$parent.caculateFirstResult = ($scope.pagingContrl.current - 1) * numberElementPerPage + 1
+			
+			function caculateTotalPage() {
+				$scope.reCaculatorTotalPage (
+					function(data){
+						$scope.pagingContrl.total = data
+					})
+				}
+			$scope.previousButtonClass = function() {
+				if ($scope.pagingContrl.currentPage == 1) {
+					return 'disabled'
+				}
+				return ''
+			}
+
+			$scope.afterButtonClass = function() {
+				if ($scope.pagingContrl.currentPage == $scope.pagingContrl.total) {
+					return 'disabled'
+				}
+				return ''
+			}
+
+			$scope.gotoPreviousPage = function() {
+				if ($scope.pagingContrl.currentPage > 1) {
+					$scope.pagingContrl.currentPage = $scope.pagingContrl.currentPage - 1
+					$scope.refreshView()
+					caculateTotalPage()
+				}
+			}
+
+			$scope.gotoAfterPage = function() {
+				if ($scope.pagingContrl.currentPage < $scope.pagingContrl.total) {
+					$scope.pagingContrl.currentPage = $scope.pagingContrl.currentPage + 1
+					$scope.refreshView()
+					caculateTotalPage()
+				}
+			}
+
+			$scope.gotoPage = function(page) {
+				if (page < 1) {
+					page = 1
+				}
+				if (page > $scope.pagingContrl.total) {
+					page = $scope.pagingContrl.total
+				}
+				$scope.pagingContrl.current = parseInt(page)
+				caculateTotalPage()
+				$scope.refreshView()
+				$scope.page = null
+			}
+			caculateTotalPage()
+		}])
+})(window.angular);
+

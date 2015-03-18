@@ -1,0 +1,16 @@
+var passParameter = function(paramenter, value, defaultUrl) {
+	var url = defaultUrl,
+	injectPoint = '{' + paramenter + '}'
+
+	return url.replace(injectPoint, value)
+}
+
+
+var currentDate = new Date(),
+timeZoneOffSet = currentDate.getTimezoneOffset(),
+changeUTCToCurrentTimeZone = function(timeInDigitValue) {
+	return timeInDigitValue - timeZoneOffSet * 60 * 1000
+},
+changeCurrentTimeZoneToUTC = function(timeInDigitValue) {
+	return timeInDigitValue + timeZoneOffSet * 60 * 1000
+}

@@ -1,0 +1,52 @@
+<div ng-show="metaData.isShowView" class="row">
+	<form role="form" class="form-horizontal col-lg-6 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <label for="exampleInputEmail1" class='col-sm-5 control-label no-padding-right'>Payment Application</label>
+            <div class="col-sm-7">
+            	<select class="form-control input-sm" ng-model='transactionFilter.paymentApplicationId' ng-change="refreshView()">
+            		<option ng-repeat="application in filter.issuer.paymentApplications" value="{{application.id}}">{{application.id}}</option>
+            	</select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" class='col-sm-5 control-label no-padding-right'>Terminal Id</label>
+            <div class="col-sm-7">
+           		<input class="form-control input-sm" type='text' ng-model='transactionFilter.terminalId' ng-change="refreshView()"/>
+           	</div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" class='col-sm-5 control-label no-padding-right'>From Time</label>
+            <div class="col-sm-7">
+          		<input class="form-control input-sm date-picker" type='text' ng-model='transactionFilter.fromTime'/>
+          	</div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" class='col-sm-5 control-label no-padding-right'>To Time</label>
+            <div class="col-sm-7">
+           		<input id="toTime" class="form-control input-sm date-picker" type='text' ng-model='transactionFilter.toTime'/>
+           	</div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" class='col-sm-5 control-label no-padding-right'>Min amount</label>
+            <div class="col-sm-7">
+           		<input id="amountFrom" class="form-control input-sm" type='text' ng-model='transactionFilter.amountFrom' ng-change="refreshView()"/>
+           	</div>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1" class='col-sm-5 control-label no-padding-right'>Max amount</label>
+            <div class="col-sm-7">
+           		<input class="form-control input-sm" type='text' ng-model='transactionFilter.amountTo' ng-change="refreshView()"/>
+           	</div>
+        </div>
+         <div class="form-group">
+            <label for="exampleInputPassword1" class='col-sm-5 control-label no-padding-right'></label>
+            <div class="col-sm-7">
+           		<input type="button" class="btn btn-default" value="clear" ng-click="clearFilter()"/>
+           	</div>
+        </div>
+      
+    </form>
+</div>
+<script type="text/javascript">
+    $('.date-picker').datepicker();
+</script>
